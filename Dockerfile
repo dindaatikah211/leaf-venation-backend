@@ -1,18 +1,12 @@
 FROM python:3.12-slim
 
-RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
-
-ENV USE_TF=0 \
-    TF_CPP_MIN_LOG_LEVEL=2 \
-    HF_HOME=/app/.cache/huggingface
+ENV TF_CPP_MIN_LOG_LEVEL=2 \
+    TF_ENABLE_ONEDNN_OPTS=0
 
 WORKDIR /app
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-COPY leaf_guard.py .
-RUN python -c "import leaf_guard"
 
 COPY . .
 
